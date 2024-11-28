@@ -6,19 +6,19 @@ use Illuminate\Console\Command;
 use Illuminate\Filesystem\Filesystem;
 use Illuminate\Support\Facades\Input;
 use Summerblue\Generator\Makes\MakeController;
+use Summerblue\Generator\Makes\MakeFormRequest;
 use Summerblue\Generator\Makes\MakeLayout;
 use Summerblue\Generator\Makes\MakeLocalization;
 use Summerblue\Generator\Makes\MakeMigration;
 use Summerblue\Generator\Makes\MakeModel;
+use Summerblue\Generator\Makes\MakeModelObserver;
+use Summerblue\Generator\Makes\MakePolicy;
 use Summerblue\Generator\Makes\MakeRoute;
 use Summerblue\Generator\Makes\MakerTrait;
 use Summerblue\Generator\Makes\MakeSeed;
 use Summerblue\Generator\Makes\MakeView;
-use Summerblue\Generator\Makes\MakeFormRequest;
-use Summerblue\Generator\Makes\MakePolicy;
-use Summerblue\Generator\Makes\MakeModelObserver;
-use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Input\InputArgument;
+use Symfony\Component\Console\Input\InputOption;
 
 class ScaffoldMakeCommand extends Command
 {
@@ -68,7 +68,7 @@ class ScaffoldMakeCommand extends Command
     {
         parent::__construct();
 
-        $this->files = $files;
+        $this->files    = $files;
         $this->composer = app()['composer'];
     }
 
@@ -81,7 +81,7 @@ class ScaffoldMakeCommand extends Command
     {
         $header = "scaffolding: {$this->getObjName("Name")}";
         $footer = str_pad('', strlen($header), '-');
-        $dump = str_pad('>DUMP AUTOLOAD<', strlen($header), ' ', STR_PAD_BOTH);
+        $dump   = str_pad('>DUMP AUTOLOAD<', strlen($header), ' ', STR_PAD_BOTH);
 
         $this->line("\n----------- $header -----------\n");
 
@@ -90,9 +90,9 @@ class ScaffoldMakeCommand extends Command
         $this->makeSeed();
         $this->makeModel();
         $this->makeController();
-        $this->makeFormRequest();
-        $this->makeModelObserver();
-        $this->makePolicy();
+        // $this->makeFormRequest(); remove for I don't like it; ^.^
+        // $this->makeModelObserver(); // remove Observer for it's automatic in 11.x
+        // $this->makePolicy(); // remove policy and AuthServiceProvider work in 11.x
         $this->makeRoute();
         // $this->makeLocalization(); //ToDo - implement in future version
         $this->makeViews();
@@ -115,18 +115,18 @@ class ScaffoldMakeCommand extends Command
     protected function makeMeta()
     {
         // ToDo - Verificar utilidade...
-        $this->meta['action'] = 'create';
+        $this->meta['action']   = 'create';
         $this->meta['var_name'] = $this->getObjName("name");
-        $this->meta['table'] = $this->getObjName("names");//obsoleto
+        $this->meta['table']    = $this->getObjName("names"); //obsoleto
 
-        $this->meta['ui'] = $this->option('ui');
+        $this->meta['ui'] = 'bs5';
 
         $this->meta['namespace'] = $this->getAppNamespace();
 
-        $this->meta['Model'] = $this->getObjName('Name');
-        $this->meta['Models'] = $this->getObjName('Names');
-        $this->meta['model'] = $this->getObjName('name');
-        $this->meta['models'] = $this->getObjName('names');
+        $this->meta['Model']          = $this->getObjName('Name');
+        $this->meta['Models']         = $this->getObjName('Names');
+        $this->meta['model']          = $this->getObjName('name');
+        $this->meta['models']         = $this->getObjName('names');
         $this->meta['ModelMigration'] = "Create{$this->meta['Models']}Table";
 
         $this->meta['schema'] = $this->option('schema');
@@ -236,8 +236,8 @@ class ScaffoldMakeCommand extends Command
     {
         return
             [
-                ['name', InputArgument::REQUIRED, 'The name of the model. (Ex: Post)'],
-            ];
+            ['name', InputArgument::REQUIRED, 'The name of the model. (Ex: Post)'],
+        ];
     }
 
     /**
@@ -249,56 +249,56 @@ class ScaffoldMakeCommand extends Command
     {
         return
             [
-                [
-                    'schema',
-                    's',
-                    InputOption::VALUE_REQUIRED,
-                    'Schema to generate scaffold files. (Ex: --schema="title:string")',
-                    null
-                ],
-                [
-                    'ui',
-                    'ui',
-                    InputOption::VALUE_OPTIONAL,
-                    'UI Framework to generate scaffold. (Default bs5 - bootstrap 5)',
-                    'bs5'
-                ],
-                [
-                    'validator',
-                    'a',
-                    InputOption::VALUE_OPTIONAL,
-                    'Validators to generate scaffold files. (Ex: --validator="title:required")',
-                    null
-                ],
-                [
-                    'localization',
-                    'l',
-                    InputOption::VALUE_OPTIONAL,
-                    'Localizations to generate scaffold files. (Ex. --localization="key:value")',
-                    null
-                ],
-                [
-                    'lang',
-                    'b',
-                    InputOption::VALUE_OPTIONAL,
-                    'Language for Localization (Ex. --lang="en")',
-                    null,
-                ],
-                [
-                    'form',
-                    'f',
-                    InputOption::VALUE_OPTIONAL,
-                    'Use Illumintate/Html Form facade to generate input fields',
-                    false
-                ],
-                [
-                    'prefix',
-                    'p',
-                    InputOption::VALUE_OPTIONAL,
-                    'Generate schema with prefix',
-                    false
-                ]
-            ];
+            [
+                'schema',
+                's',
+                InputOption::VALUE_REQUIRED,
+                'Schema to generate scaffold files. (Ex: --schema="title:string")',
+                null,
+            ],
+            [
+                'ui',
+                'ui',
+                InputOption::VALUE_OPTIONAL,
+                'UI Framework to generate scaffold. (Default bs5 - bootstrap 5)',
+                'bs5',
+            ],
+            [
+                'validator',
+                'a',
+                InputOption::VALUE_OPTIONAL,
+                'Validators to generate scaffold files. (Ex: --validator="title:required")',
+                null,
+            ],
+            [
+                'localization',
+                'l',
+                InputOption::VALUE_OPTIONAL,
+                'Localizations to generate scaffold files. (Ex. --localization="key:value")',
+                null,
+            ],
+            [
+                'lang',
+                'b',
+                InputOption::VALUE_OPTIONAL,
+                'Language for Localization (Ex. --lang="en")',
+                null,
+            ],
+            [
+                'form',
+                'f',
+                InputOption::VALUE_OPTIONAL,
+                'Use Illumintate/Html Form facade to generate input fields',
+                false,
+            ],
+            [
+                'prefix',
+                'p',
+                InputOption::VALUE_OPTIONAL,
+                'Generate schema with prefix',
+                false,
+            ],
+        ];
     }
 
     /**
@@ -320,7 +320,7 @@ class ScaffoldMakeCommand extends Command
      */
     public function getObjName($config = 'Name')
     {
-        $names = [];
+        $names     = [];
         $args_name = $this->argument('name');
 
         // Name[0] = Tweet
@@ -331,7 +331,6 @@ class ScaffoldMakeCommand extends Command
         $names['names'] = \Str::plural(strtolower(preg_replace('/(?<!^)([A-Z])/', '_$1', $args_name)));
         // Name[3] = tweet
         $names['name'] = \Str::singular(strtolower(preg_replace('/(?<!^)([A-Z])/', '_$1', $args_name)));
-
 
         if (!isset($names[$config])) {
             throw new \Exception("Position name is not found");
