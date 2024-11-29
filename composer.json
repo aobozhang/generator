@@ -1,5 +1,5 @@
 {
-  "name": "aobozhang/laravel-generator",
+  "name": "aobozhang/generator",
   "description": "Extend Laravel's generators scaffold.",
   "keywords": [
     "laravel",
