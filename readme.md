@@ -12,7 +12,32 @@ Laravel Scaffold Generator, for Laravel 11.x.
 ## Install
 
 ```
-composer require "aobozhang/generator"
+<!-- composer.json -->
+{
+   ...
+
+   "repositories": [
+        {
+            "type": "vcs",
+            "url": "https://github.com/aobozhang/generator"
+        }
+    ],
+   
+   ...
+
+    "require-dev": {
+         ...
+         "summerblue/generator": "dev-master"
+    }
+    
+    ...
+}
+
+```
+
+```
+<!-- console -->
+composer update
 ```
 
 ## Usage
