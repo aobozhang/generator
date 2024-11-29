@@ -49,7 +49,7 @@
               @endforeach
             </tbody>
           </table>
-          {!! ${{models}}->render() !!}
+          {{ ${{models}}->links('vendor.pagination.bootstrap-5') }}
         @else
           <h3 class="text-xs-center alert alert-info">Empty!</h3>
         @endif

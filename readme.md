@@ -38,6 +38,8 @@ Laravel Scaffold Generator, for Laravel 11.x.
 ```
 <!-- console -->
 composer update
+
+php artisan vendor:publish --tag=laravel-pagination
 ```
 
 ## Usage
