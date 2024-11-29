@@ -32,13 +32,12 @@ class {{Models}}Controller extends Controller
 
 	public function edit({{Model}} ${{model}})
 	{
-        $this->authorize('update', ${{model}});
 		return view('{{models}}.create_and_edit', compact('{{model}}'));
 	}
 
 	public function update(Request $request, {{Model}} ${{model}})
 	{
-		$this->authorize('update', ${{model}});
+
 		${{model}}->update($request->all());
 
 		return redirect()->route('{{prefix}}{{models}}.show', ${{model}}->id)->with('message', 'Updated successfully.');
@@ -46,7 +45,6 @@ class {{Models}}Controller extends Controller
 
 	public function destroy({{Model}} ${{model}})
 	{
-		$this->authorize('destroy', ${{model}});
 		${{model}}->delete();
 
 		return redirect()->route('{{prefix}}{{models}}.index')->with('message', 'Deleted successfully.');
