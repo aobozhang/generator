@@ -90,7 +90,7 @@ class ScaffoldMakeCommand extends Command
         $this->makeSeed();
         $this->makeModel();
         $this->makeController();
-        // $this->makeFormRequest(); remove for I don't like it; ^.^
+        // $this->makeFormRequest(); // remove - I don't like it ^.^
         // $this->makeModelObserver(); // remove Observer for it's automatic in 11.x
         // $this->makePolicy(); // remove policy and AuthServiceProvider work in 11.x
         $this->makeRoute();
